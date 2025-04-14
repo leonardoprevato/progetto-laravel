@@ -1,0 +1,6 @@
+php artsian e come fosse la suite di tutti i comandi in php 
+
+per creare un foreignkey bisogna editare la tabella principale con php artisan make:migration edit_drugs_table
+
+per aggiungere dati vedi add_companies_data
+
