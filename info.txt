@@ -4,3 +4,4 @@ per creare un foreignkey bisogna editare la tabella principale con php artisan m
 
 per aggiungere dati vedi add_companies_data
 
+ORM object relation model modello fatto da oggetti che si relazionano tra loro
