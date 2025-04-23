@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-//classe ccessoria di laravel
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model

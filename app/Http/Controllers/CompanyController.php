@@ -5,7 +5,6 @@
 namespace App\Http\Controllers;
 use App\Models\Company;
 use Inertia\Inertia;
-
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -17,9 +16,11 @@ class CompanyController extends Controller
     {
         //return Company::all();
         $all_companies_data= Company::all();
-        //return Inertia::render('Companies',['data'=>$all_companies_data]);  per usare vue
-         return response()->view('companies')['data'=>$all_companies_data]; //per usare blade
+        return Inertia::render('Companies',['data'=>$all_companies_data]);  //per usare vue
+         //return response()->view('companies')['data'=>$all_companies_data]; //per usare blade
     }
+
+
     public function getcompany2()
     {
         return Company::all();
