@@ -32,30 +32,11 @@ class DrugsController extends Controller
         return Drugs::find($id);
     }
 
-    public function store(Request $request)
-    {
-      
-    }
 
     public function show(string $id)
     {
         $drug = Drugs::with(['company', 'activeIngredient'])->findOrFail($id);
         return Inertia::render('Drugs/Show', ['drug' => $drug]);
-    }
-
-    public function edit(string $id)
-    {
-       
-    }
-
-    public function update(Request $request, string $id)
-    {
-       
-    }
-
-    public function destroy(string $id)
-    {
-      
     }
 
   

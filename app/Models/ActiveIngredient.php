@@ -5,7 +5,7 @@ use App\Models\Drugs;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class ActiveIngredient extends Model
 {
     protected $fillable = ['name'];
 
@@ -13,8 +13,4 @@ class Company extends Model
     {
         return $this->hasMany(Drugs::class);
     }
-
-    // $guarded => contiene array di attributi che non vogliamo siano modificabili,
-    //  vuoto se vogliamo consentire la modifica di tutti gli elementi
-    //protected $guarded = ['id','created_at','update_at'];
 }

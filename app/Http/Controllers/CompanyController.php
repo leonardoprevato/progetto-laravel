@@ -20,7 +20,6 @@ class CompanyController extends Controller
          //return response()->view('companies')['data'=>$all_companies_data]; //per usare blade
     }
 
-
     public function getcompany2()
     {
         return Company::all();
@@ -29,6 +28,13 @@ class CompanyController extends Controller
     {
         return Company::all();
     }
+
+
+    public function fetchDrugsByCompany (string $id)
+    {
+        $drug= Company::find($id);
+        return $drug->drugs;
+    }
     
 
     /**
@@ -36,7 +42,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
