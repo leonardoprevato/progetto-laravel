@@ -36,7 +36,6 @@ class ActiveIngredientController extends Controller
 
     public function fetchDrugsByIngredient (string $id)
     {
-        
         $activeingredient= ActiveIngredient::find($id);
         return $activeingredient->drugs;
     }

@@ -16,19 +16,14 @@ class CompanyController extends Controller
     {
         //return Company::all();
         $all_companies_data= Company::all();
-        return Inertia::render('Companies',['data'=>$all_companies_data]);  //per usare vue
+        return Inertia::render('Companies',['data'=>$all_companies_data]);  //per usare vue     1 parametro(Pagina Vue)  2 Parametro(dati)
          //return response()->view('companies')['data'=>$all_companies_data]; //per usare blade
     }
 
-    public function getcompany2()
-    {
-        return Company::all();
-    }
     public function fetchcompany2(string $id)
     {
         return Company::all();
     }
-
 
     public function fetchDrugsByCompany (string $id)
     {
@@ -42,7 +37,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        
+        return Inertia::render('company/Create');
     }
 
     /**
@@ -50,7 +45,11 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated_request = $request->validate(['name' =>['required','min:5']]);
+
+        Company::create($validated_request);
+
+        return to_route('company.index');
     }
 
     /**
@@ -58,7 +57,8 @@ class CompanyController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $all_companies_data= Company::find($id);
+        return Inertia::render('Company',['data'=>$all_companies_data]);
     }
 
     /**
@@ -82,6 +82,7 @@ class CompanyController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = Company::find($id)->delete();
+        return to_route('company.index');
     }
 }

@@ -14,15 +14,15 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('company2', [CompanyController::class,'getcompany2']);
-Route::get('company2/{id}', [CompanyController::class,'fetchcompany2']);
 Route::get('drugs', [DrugsController::class,'getdrugs']);
 Route::get('drugs/{id}', [DrugsController::class,'fetchdrugs']);
 Route::get('activeingredients', [ActiveIngredientController::class,'getdrugs']);
 Route::get('activeingredients/{id}', [ActiveIngredientController::class,'fetchingredients']);
 Route::get('activeingredients/{id}/drugs', [ActiveIngredientController::class,'fetchDrugsByIngredient']);
-Route::get('company2/{id}/drugs', [CompanyController::class,'fetchDrugsByCompany']);
+Route::get('company/{id}/drugs', [CompanyController::class,'fetchDrugsByCompany']);
 
+Route::resource('company',CompanyController::class)->only(['create','store','update','destroy'])->middleware(['index','show']);
+Route::resource('company',CompanyController::class)->only(['index','show']);
 
 
 Route::resource('company',CompanyController::class);    
