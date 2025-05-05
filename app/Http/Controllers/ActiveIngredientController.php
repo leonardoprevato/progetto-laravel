@@ -11,16 +11,54 @@ class ActiveIngredientController extends Controller
 {
     public function index()
     {
-        $active_ingredients = ActiveIngredient::with(['drugs', 'activeIngredient'])->get();
-        return Inertia::render('ActiveIngredients/Index', ['active_ingredients' => $active_ingredients]);
+        $all_ingredients_data= ActiveIngredient::all();
+        return Inertia::render('ActiveIngredients',['data'=>$all_ingredients_data]); 
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $data = ActiveIngredient::find($id)->load('drugs');
+        return Inertia::render('ingredients/Edit',['data'=>$data]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        ActiveIngredient::find($id)->update($request->validate([
+            'atc_code' => ['required','min:5'],
+            'main_ingredients' => ['required','min:5'],
+            'description' => ['required','min:5'],
+        ]));
+        return to_route('active_ingredients.index');
     }
 
     public function create()
     {
-        return Inertia::render('ActiveIngredients/Create', [
-            'companies' => Company::all(),
-            'drugs' => Drugs::all()
-        ]);
+        return Inertia::render('ingredients/Create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated_request = $request->validate(
+            [
+                'atc_code' => ['required','min:5'],
+                'main_ingredients' => ['required','min:5'],
+                'description' => ['required','min:5'],
+            ]
+    );
+        ActiveIngredient::create($validated_request);
+        return to_route('active_ingredients.index');
+    }
+
+    public function destroy(string $id)
+    {
+        $data = ActiveIngredient::find($id)->delete();
+        return to_route('active_ingredients.index');
     }
 
     public function getdrugs()
@@ -44,8 +82,8 @@ class ActiveIngredientController extends Controller
 
     public function show(string $id)
     {
-        $drug = ActiveIngredient::with(['company', 'drugs'])->findOrFail($id);
-        return Inertia::render('ActiveIngredients/Show', ['activeingredients' => $drug]);
+        $all_ingredients_data= ActiveIngredient::find($id);
+        return Inertia::render('ActiveIngredient',['data'=>$all_ingredients_data]);
     }
 
  

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
-//import TextLink from '@/components/TextLink.vue';
+import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 //import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -10,23 +10,27 @@ import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
 
+const props= defineProps<{
+    data:   {
+        id: string;
+        name: string;
+    };
+}>();
 
 const form = useForm({
-    name: '',
+    name: props.data['name'] || '',
 });
 
 const submit = () => {
-    form.post(route('company.store'), {
+    form.put(route('company.update',props.data.id), {
         onFinish: () => form.reset("name"),
     });
 };
 </script>
 
 <template>
-    <AuthBase title="Crea una nuova Azienda" >
-        <Head title="Crea una nuova Azienda" />
-
-       
+    <AuthBase title="Modifica un'Azienda" >
+        <Head title="Modifica un'Azienda" />
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
@@ -36,7 +40,6 @@ const submit = () => {
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
                         <Label for="name">Name</Label>
-                      
                     </div>
                     <Input
                         id="name"

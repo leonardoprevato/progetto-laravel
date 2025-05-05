@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Models\Drugs;
+use App\Models\Drug;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +12,7 @@ class Company extends Model
     use SoftDeletes;
     public function drugs()
     {
-        return $this->hasMany(Drugs::class);
+        return $this->hasMany(Drug::class);
     }
 
     // $guarded => contiene array di attributi che non vogliamo siano modificabili,

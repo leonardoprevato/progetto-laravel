@@ -7,6 +7,24 @@ import { faEye,faTrash,faPencil } from "@fortawesome/free-solid-svg-icons";
 defineProps({ data: Object })
 </script>
 
+<style>
+table{
+    font-family: arial,sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,th{
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){
+    background-color:#dddddd ;
+}
+</style>
+
 <template>
     <AuthBase>
         <Head title="Companies" />
@@ -22,6 +40,7 @@ defineProps({ data: Object })
                 <td>{{ company.name }}</td>
                 <td style="display: inline;">
                     <Link v-if="$page.props.auth.user" :href="'/company/'+company.id" as="button"><SvgIcon :fa-icon="faEye"></SvgIcon></Link>
+                    <Link v-if="$page.props.auth.user" :href="'/company/'+company.id+'/edit'" as="button"><SvgIcon :fa-icon="faPencil"></SvgIcon></Link>
                     <Link onclick="return confirm('Sei sicuro?')" v-if="$page.props.auth.user" method="DELETE" :href="'/company/'+company.id" as="button">
                         <SvgIcon :fa-icon="faTrash"></SvgIcon>
                     </Link>

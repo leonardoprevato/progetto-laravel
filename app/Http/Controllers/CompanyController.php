@@ -66,7 +66,8 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = Company::find($id)->load('drugs');
+        return Inertia::render('company/Edit',['data'=>$data]);
     }
 
     /**
@@ -74,7 +75,10 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        Company::find($id)->update($request->validate([
+            'name' => ['required','min:5']
+        ]));
+        return to_route('company.index');
     }
 
     /**

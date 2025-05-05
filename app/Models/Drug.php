@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\ActiveIngredient;
 
-class Drugs extends Model
+class Drug extends Model
 {
-    protected $fillable = ['name'];
     use SoftDeletes;
-    public function activeIngredient(){
+
+    protected $fillable = ['name'];
+    
+    public function active_ingredient(): BelongsTo
+    {
         return this->belongsTo(ActiveIngredient::class);
     }
 }
