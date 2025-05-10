@@ -9,7 +9,16 @@ import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
+const props = defineProps(
+    {
+        companies:Array<object>,
+        ingredients:Array<object>
+    }
+)
+
 const form = useForm({
+    company_id:'',
+    active_ingredient_id:'',
     codice_minsan: '',
     name:  '',
     description:  '',
@@ -18,26 +27,39 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('active_ingredients.store'), {
-        onFinish: () => form.reset("codice_minsan",'name','description','expiration_date','price'),
+    form.post(route('drug.store'), {
+        onFinish: () => form.reset('company_id',"codice_minsan",'name','description','expiration_date','price'),
     });
 };
 </script>
 
 <template>
-    <AuthBase title="Crea una nuovo Ingrediente" >
-        <Head title="Crea una nuovo Ingrediente" />
+    <AuthBase title="Crea una nuovo Farmaco" >
+        <Head title="Crea una nuovo Farmaco" />
 
       
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                </div>
-
-                <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="main_ingredients">Ingrediente</Label>
+                        <Label for="company_id">Company ID</Label>
+                    </div>
+                    <select name="company_id" id="company_id" v-model="form.company_id">
+                        <option v-for="item in props.companies" :value="item['id']">{{ item['name'] }}</option>
+                    </select>
+                    <div class="flex items-center justify-between">
+                        <Label for="ingredients">Active Ingredients</Label>
+                    </div>
+                    <select name="ingredients" id="ingredients" v-model="form.active_ingredient_id">
+                        <option v-for="item in props.ingredients" :value="item['id']">{{ item['main_ingredients'] }}</option>
+                    </select>
+                    <InputError :message="form.errors.name"></InputError>
+                </div>
+                <div class="grid gap-2">
+                  
+                    <div class="flex items-center justify-between">
+                        <Label for="codice_minsan">Codice Minsan</Label>
                     </div>
                     <Input
                         id="codice_minsan"
@@ -49,11 +71,11 @@ const submit = () => {
                     />
                     <InputError :message="form.errors.codice_minsan" />
                     <div class="flex items-center justify-between">
-                        <Label for="main_ingredients">Codice ATC</Label>
+                        <Label for="name">Nome</Label>
                     </div>
                     <Input
                         id="name"
-                        type="name"
+                        type="text"
                         required
                         :tabindex="1"
                         v-model="form.name"
@@ -61,11 +83,11 @@ const submit = () => {
                     />
                     <InputError :message="form.errors.name" />
                     <div class="flex items-center justify-between">
-                        <Label for="main_ingredients">Descrizione</Label>
+                        <Label for="description">Descrizione</Label>
                     </div>
                     <Input
                         id="description"
-                        type="description"
+                        type="text"
                         required
                         :tabindex="1"
                         v-model="form.description"
@@ -73,27 +95,28 @@ const submit = () => {
                     />
                     <InputError :message="form.errors.description" />
                     <div class="flex items-center justify-between">
-                        <Label for="main_ingredients">Descrizione</Label>
+                        <Label for="expiration_date">Scadenza</Label>
                     </div>
                     <Input
                         id="expiration_date"
-                        type="number"
+                        type="date"
                         required
                         :tabindex="1"
                         v-model="form.expiration_date"
-                        placeholder="Descrizione"
+                        placeholder="Scadenza   "
                     />
                     <InputError :message="form.errors.expiration_date" />
                     <div class="flex items-center justify-between">
-                        <Label for="main_ingredients">Descrizione</Label>
+                        <Label for="price">Prezzo</Label>
                     </div>
                     <Input
                         id="price"
                         type="number"
+                        step=".01"
                         required
                         :tabindex="1"
                         v-model="form.price"
-                        placeholder="Descrizione"
+                        placeholder="Prezzo"
                     />
                     <InputError :message="form.errors.price" />
                 </div>

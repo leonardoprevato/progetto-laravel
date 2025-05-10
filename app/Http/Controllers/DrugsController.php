@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Drug;
+use App\Models\Company;
 use App\Models\ActiveIngredient;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -10,8 +11,8 @@ class DrugsController extends Controller
 {
     public function index()
     {
-        $all_ingredients_data= Drug::all();
-        return Inertia::render('Drugs',['data'=>$all_ingredients_data]); 
+        $all_drugs_data= Drug::all();
+        return Inertia::render('Drugs',['data'=>$all_drugs_data]); 
     }
 
     public function getdrugs()
@@ -25,11 +26,13 @@ class DrugsController extends Controller
     }
 
   /**
-     * Show the form for creating a new resource. NON SONO FUNZIONI CRUD
+     * Show the form for creating a new resource. 
      */
     public function create()
     {
-        return Inertia::render('company/Create');
+        $all_drugs_data= Company::all();
+        $all_ingredients_data= ActiveIngredient::all();
+        return Inertia::render('drugs/Create',['companies'=>$all_drugs_data,'ingredients'=>$all_ingredients_data]);
     }
 
     /**
@@ -37,11 +40,19 @@ class DrugsController extends Controller
      */
     public function store(Request $request)
     {
-        $validated_request = $request->validate(['name' =>['required','min:5']]);
+        $validated_request = $request->validate([
+            'company_id'=>['required'],
+            'active_ingredient_id'=>['required'],
+            'codice_minsan' => ['required','min:5'],
+            'name' => ['required','min:5'],
+            'description' => ['required','min:5'],
+            'expiration_date' => ['required','min:5'],
+            'price' => ['required'],    
+        ]);
 
         Drug::create($validated_request);
 
-        return to_route('company.index');
+        return to_route('drug.index');
     }
 
     /**
@@ -49,7 +60,7 @@ class DrugsController extends Controller
      */
     public function show(string $id)
     {
-        $all_companies_data= Drug::find($id);
+        $all_companies_data= Drug::find($id)->load('active_ingredient')->load('company');
         return Inertia::render('Drug',['data'=>$all_companies_data]);
     }
 
@@ -58,8 +69,10 @@ class DrugsController extends Controller
      */
     public function edit(string $id)
     {
-        $data = Drug::find($id)->load('drugs');
-        return Inertia::render('company/Edit',['data'=>$data]);
+        $data = Drug::find($id)->load('active_ingredient');
+        $all_drugs_data= Company::all();
+        $all_ingredients_data= ActiveIngredient::all();
+        return Inertia::render('drugs/Edit',['data'=>$data,'companies'=>$all_drugs_data,'ingredients'=>$all_ingredients_data]);
     }
 
     /**
@@ -68,11 +81,15 @@ class DrugsController extends Controller
     public function update(Request $request, string $id)
     {
         Drug::find($id)->update($request->validate([
-            'atc_code' => ['required','min:5'],
-            'main_ingredients' => ['required','min:5'],
+            'codice_minsan' => ['required','min:5'],
+            'company_id' => ['required'],
+            'active_ingredient_id' => ['required'],
+            'name' => ['required','min:5'],
             'description' => ['required','min:5'],
+            'expiration_date' => ['required','min:5'],
+            'price' => ['required'],
         ]));
-        return to_route('company.index');
+        return to_route('drug.index');
     }
 
     /**
@@ -81,6 +98,6 @@ class DrugsController extends Controller
     public function destroy(string $id)
     {
         $data = Drug::find($id)->delete();
-        return to_route('company.index');
+        return to_route('drug.index');
     }
 }

@@ -26,8 +26,6 @@ const submit = () => {
     <AuthBase title="Crea una nuovo Ingrediente" >
         <Head title="Crea una nuovo Ingrediente" />
 
-      
-
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">

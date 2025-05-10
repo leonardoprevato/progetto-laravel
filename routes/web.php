@@ -29,9 +29,5 @@ Route::resource('drug',DrugsController::class)->only(['create','store','update',
 Route::resource('drug',DrugsController::class)->only(['index','show']);
 
 
-Route::resource('company',CompanyController::class);    
-Route::resource('drug',DrugsController::class);    
-Route::resource('active_ingredients',ActiveIngredientController::class);    
-
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

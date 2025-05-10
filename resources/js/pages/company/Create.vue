@@ -9,8 +9,6 @@ import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
-
-
 const form = useForm({
     name: '',
 });
@@ -27,7 +25,6 @@ const submit = () => {
         <Head title="Crea una nuova Azienda" />
 
        
-
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
